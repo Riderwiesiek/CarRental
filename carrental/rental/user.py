@@ -12,3 +12,14 @@ def logout(request):
 def register(request):
     form = inlineformset_factory(models.RegistrationForm, models.AddressForm)
     return render(request,'register.html.jinja', {'form': form})
+
+    if request.method == 'GET':
+        form = forms.RegistrationForm()
+        form_address = forms.UserAddressFormSet
+        return render(request,'register.html.jinja', {'form': form, 'form_address': form_address})
+    elif request.method == 'POST':
+        form = forms.RegistrationForm(request.POST)
+        messages.success(request, "Success")
+        return render(request,'register.html.jinja')
+    else:
+        return render(request,'register.html.jinja')

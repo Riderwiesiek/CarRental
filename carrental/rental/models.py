@@ -35,12 +35,14 @@ class Car(models.Model):
     value = models.DecimalField(max_digits=10, decimal_places=2)
 
 class Address(models.Model):
+    user = models.OneToOneField(User, on_delete=models.RESTRICT)
     country = models.CharField(max_length=30)
     city = models.CharField(max_length=30)
     post_code = models.CharField(max_length=10)
     street = models.CharField(max_length=50)
     building_no = models.CharField(max_length=10)
     appartment_no = models.CharField(max_length=10)
+    # address = models.OneToOneField(Address, on_delete=models.RESTRICT)
 
 class User(User):
     IDENTITY_DOCUMENT_TYPES = [
@@ -81,3 +83,5 @@ class AddressForm(ModelForm):
         model = Address
         exclude = ['id']
        # fields = ['country', 'city', 'post_code', 'street', 'building_no', 'appartment_no']
+
+payment_status = models.BooleanField()
