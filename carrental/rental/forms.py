@@ -8,9 +8,11 @@ class RegistrationForm(UserCreationForm):
     class Meta:
         model = models.User
         # exclude = ['id']
-        fields = ['username', 'email', 'password1', 'password2', 'first_name', 'last_name', 'phone']
+        fields = ['username', 'email', 'password1', 'password2', 'first_name', 'last_name', 'phone', 'identity_document_type', 'identity_document_no']
         labels = {
             'phone': _("Numer telefonu"),
+            'identity_document_no': ("Typ numeru dokumentu"),
+            'identity_document_type': ("Numer dokumentu tożsamości")
         }
 
 class AddressForm(ModelForm):

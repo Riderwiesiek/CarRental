@@ -7,6 +7,9 @@ from django.contrib.auth.forms import UserCreationForm
 class Equipment(models.Model):
     equipment = models.CharField(max_length=50)
 
+    def _str_(self) -> str:
+        return self.equipment
+
 class Car(models.Model):
     ENGINE_TYPES = [
         ("benzynowy", "Benzynowy"),
@@ -20,9 +23,16 @@ class Car(models.Model):
         ("manualna", "Manualna"),
         ("polautomatyczna", "Polautomatyczna"),
     ]
-    brand = models.CharField(max_length=50)
-    model = models.CharField(max_length=50)
-    engine_type = models.CharField(max_length=20, choices=ENGINE_TYPES)
+    CATEGORIES = [
+        ("suv", "SUV"),
+        ("miejski","miejski"),
+        ("terenowy","terenowy"),
+        ("van","VAN"),
+        ("sportowy","sportowy"),
+    ]
+    brand = models.CharField(max_length=50, verbose_name="Marka")
+    model = models.CharField(max_length=50, verbose_name="Model")
+    engine_type = models.CharField(max_length=20, choices=ENGINE_TYPES, verbose_name="Typ silnika")
     seats_count = models.PositiveSmallIntegerField() 
     dors_count = models.PositiveSmallIntegerField()
     fuel_usage = models.FloatField()
@@ -33,6 +43,7 @@ class Car(models.Model):
     available = models.BooleanField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
     value = models.DecimalField(max_digits=10, decimal_places=2)
+    categories = models.CharField(max_length=20, choices=CATEGORIES)
 
 class Address(models.Model):
     user = models.OneToOneField(User, on_delete=models.RESTRICT)
@@ -53,7 +64,7 @@ class User(User):
     phone = models.CharField(max_length=20)
     identity_document_type = models.CharField(max_length=50)
     identity_document_no = models.CharField(max_length=20)
-    address = models.OneToOneField(Address, on_delete=models.RESTRICT)
+    #address = models.OneToOneField(Address, on_delete=models.RESTRICT)
 
 class Order(models.Model):
     PAYMENT_METHODS = [
@@ -71,17 +82,3 @@ class Order(models.Model):
     deposit = models.DecimalField(max_digits=10, decimal_places=2)
     payment_method = models.CharField(max_length=20, choices=PAYMENT_METHODS)
     payment_status = models.BooleanField()
-
-class RegistrationForm(ModelForm):
-    class Meta:
-        model = User
-        exclude = ['id']
-       # fields = ['first_name', 'last_name', 'email', 'phone', 'address']
-
-class AddressForm(ModelForm):
-    class Meta:
-        model = Address
-        exclude = ['id']
-       # fields = ['country', 'city', 'post_code', 'street', 'building_no', 'appartment_no']
-
-payment_status = models.BooleanField()
