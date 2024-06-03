@@ -43,7 +43,7 @@ class Car(models.Model):
     available = models.BooleanField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
     value = models.DecimalField(max_digits=10, decimal_places=2)
-    categories = models.CharField(max_length=20, choices=CATEGORIES)
+    category = models.CharField(max_length=20, choices=CATEGORIES)
 
 class Address(models.Model):
     user = models.OneToOneField(User, on_delete=models.RESTRICT)

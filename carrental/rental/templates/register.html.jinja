@@ -1,11 +1,11 @@
 {% extends "base.html.jinja" %}
 {% block content %}
-    {% if message %}
+    {% if message  %}
         <p>{{message}}</p>
- {% else %}
+    {% else %}
     <form action="{% url 'register' %}" method="POST">
         {% csrf_token %}
-        {{form.user_as_p}}
+        {{form_user.as_p}}
         {{form_address.as_p}}
         <button type="submitt">Zarejestruj</button>
     </form>
