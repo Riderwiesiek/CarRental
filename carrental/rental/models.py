@@ -1,13 +1,11 @@
 from django.db import models
-from django.forms import ModelForm
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-
 
 class Equipment(models.Model):
     equipment = models.CharField(max_length=50)
 
-    def _str_(self) -> str:
+    def __str__(self) -> str:
         return self.equipment
 
 class Car(models.Model):
@@ -25,10 +23,10 @@ class Car(models.Model):
     ]
     CATEGORIES = [
         ("suv", "SUV"),
-        ("miejski","miejski"),
-        ("terenowy","terenowy"),
-        ("van","VAN"),
-        ("sportowy","sportowy"),
+        ("miejski", "miejski"),
+        ("terenowy", "terenowy"),
+        ("van", "VAN"),
+        ("sportowy", "sportowy"),
     ]
     brand = models.CharField(max_length=50, verbose_name="Marka")
     model = models.CharField(max_length=50, verbose_name="Model")
@@ -45,6 +43,10 @@ class Car(models.Model):
     value = models.DecimalField(max_digits=10, decimal_places=2)
     category = models.CharField(max_length=20, choices=CATEGORIES)
 
+    def __str__(self) -> str:
+        return f"{self.brand} {self.model} (ID: {self.id})"
+
+
 class Address(models.Model):
     user = models.OneToOneField(User, on_delete=models.RESTRICT)
     country = models.CharField(max_length=30)
@@ -53,18 +55,17 @@ class Address(models.Model):
     street = models.CharField(max_length=50)
     building_no = models.CharField(max_length=10)
     appartment_no = models.CharField(max_length=10)
-    # address = models.OneToOneField(Address, on_delete=models.RESTRICT)
 
 class User(User):
     IDENTITY_DOCUMENT_TYPES = [
-        ("dowód", "dowod osóbisty"),
-        ("paszport", "paszposrt"),
-        ("prawo_jazdy", "prawo jazdy"),
+        ("dowod", "dowód osobisty"),
+        ("paszport", "paszport"),
+        ("prawo_jazdy", "prawo jazdy")
     ]
     phone = models.CharField(max_length=20)
-    identity_document_type = models.CharField(max_length=50)
+    identity_document_type = models.CharField(max_length=20, choices=IDENTITY_DOCUMENT_TYPES)
     identity_document_no = models.CharField(max_length=20)
-    #address = models.OneToOneField(Address, on_delete=models.RESTRICT)
+    # address = models.OneToOneField(Address, on_delete=models.RESTRICT)
 
 class Order(models.Model):
     PAYMENT_METHODS = [
@@ -76,7 +77,7 @@ class Order(models.Model):
     customer = models.ForeignKey(User, on_delete=models.RESTRICT)
     car = models.ForeignKey(Car, on_delete=models.RESTRICT)
     order_value = models.DecimalField(max_digits=10, decimal_places=2)
-    declared_order_duration = models.DurationField()
+    declared_order_duration = models.IntegerField()
     pickup_date = models.DateTimeField()
     return_date = models.DateTimeField()
     deposit = models.DecimalField(max_digits=10, decimal_places=2)
