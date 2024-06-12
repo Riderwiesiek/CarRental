@@ -15,6 +15,7 @@ def cars(request):
 
 def car(request, car_id):
     return render(request,'car.html.jinja')
+
 def rent(request, car_id):
     if request.method == 'POST':
         form_order = OrderForm(request.POST)

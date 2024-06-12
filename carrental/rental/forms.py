@@ -36,7 +36,7 @@ UserAddressFormSet = inlineformset_factory(
     extra=0,
     min_num=1,
     can_delete=False,
-) 
+)
 
 class OrderForm(ModelForm):
     class Meta:
